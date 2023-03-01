@@ -10,6 +10,9 @@
 
 #include <JuceHeader.h>
 
+#define BITDEPTH_ID "bitdepth"
+#define BITDEPTH_NAME "Bitdepth"
+
 //==============================================================================
 /**
 */
@@ -56,6 +59,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    AudioProcessorValueTreeState treeState;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessor)

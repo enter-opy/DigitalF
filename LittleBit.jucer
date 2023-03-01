@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="oYPFJ7" name="LittleBit" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              companyName="Samplerated">
+              addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1"
+              companyName="Samplerated" splashScreenColour="Light">
   <MAINGROUP id="l0zj8Y" name="LittleBit">
     <GROUP id="{B83F203B-9CD6-4A07-9724-1EC1D6EF8933}" name="Source">
       <FILE id="o4rWnN" name="PluginProcessor.cpp" compile="1" resource="0"

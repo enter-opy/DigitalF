@@ -13,9 +13,14 @@
 LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
     setSize (400, 300);
+
+    bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    bitdepthSlider.setRange(2, 32);
+    bitdepthSlider.setValue(32);
+    bitdepthSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    bitdepthSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&bitdepthSlider);
 }
 
 LittleBitAudioProcessorEditor::~LittleBitAudioProcessorEditor()
@@ -25,16 +30,10 @@ LittleBitAudioProcessorEditor::~LittleBitAudioProcessorEditor()
 //==============================================================================
 void LittleBitAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void LittleBitAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    bitdepthSlider.setBounds(40, 100, 100, 100);
 }

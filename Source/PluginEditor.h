@@ -29,5 +29,10 @@ private:
     // access the processor object that created it.
     LittleBitAudioProcessor& audioProcessor;
 
+    Slider bitdepthSlider;
+
+public:
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> bitdepthValue;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessorEditor)
 };
