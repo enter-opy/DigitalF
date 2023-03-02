@@ -15,9 +15,12 @@ LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProc
 {
     setSize (400, 300);
 
+    bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
+
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    bitdepthSlider.setRange(2, 32);
-    bitdepthSlider.setValue(32);
+    bitdepthSlider.setRange(2.0, 32.0, 1.0);
+    bitdepthSlider.setSkewFactorFromMidPoint(8.0);
+    bitdepthSlider.setValue(32.0);
     bitdepthSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     bitdepthSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&bitdepthSlider);

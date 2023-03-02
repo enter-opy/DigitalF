@@ -20,7 +20,7 @@ LittleBitAudioProcessor::LittleBitAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-    treeState(*this, nullptr, "PARAMETER", { std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 20.0f, 20000.0f, 600.0f) })
+    treeState(*this, nullptr, "PARAMETER", { std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 2.0f, 32.0f, 32.0f) })
 
 #endif
 {
@@ -133,20 +133,21 @@ bool LittleBitAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 
 void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    const int totalNumInputChannels  = getTotalNumInputChannels();
+    const int totalNumOutputChannels = getTotalNumOutputChannels();
 
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    int maxBitdepthValue = pow(2, *treeState.getRawParameterValue(BITDEPTH_ID)) / 2;
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto channelData = buffer.getWritePointer(channel);
-        auto bitdepthValue = treeState.getRawParameterValue(BITDEPTH_ID);
+        float* channelData = buffer.getWritePointer(channel);
 
         for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
-            channelData[sample] = buffer.getSample(channel, sample);
+            currentSampleValue = channelData[sample];
+
+            newSampleValue = round((currentSampleValue) * maxBitdepthValue);
+
+            channelData[sample] = newSampleValue / maxBitdepthValue;
         }
     }
 }

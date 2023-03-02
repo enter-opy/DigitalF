@@ -61,6 +61,9 @@ public:
 
     AudioProcessorValueTreeState treeState;
 private:
+    float currentSampleValue;
+    float newSampleValue;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessor)
 };
