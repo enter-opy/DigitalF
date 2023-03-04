@@ -16,6 +16,7 @@ LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProc
     setSize (400, 300);
 
     bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
+    bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
 
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     bitdepthSlider.setRange(2.0, 32.0, 1.0);
@@ -24,6 +25,14 @@ LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProc
     bitdepthSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     bitdepthSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&bitdepthSlider);
+
+    samplerateSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    samplerateSlider.setRange(2.0, 44100.0, 1.0);
+    samplerateSlider.setValue(44100.0);
+    samplerateSlider.setTextValueSuffix(" Hz");
+    samplerateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    samplerateSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&samplerateSlider);
 }
 
 LittleBitAudioProcessorEditor::~LittleBitAudioProcessorEditor()
@@ -39,4 +48,5 @@ void LittleBitAudioProcessorEditor::paint (juce::Graphics& g)
 void LittleBitAudioProcessorEditor::resized()
 {
     bitdepthSlider.setBounds(40, 100, 100, 100);
+    samplerateSlider.setBounds(200, 100, 100, 100);
 }

@@ -20,7 +20,12 @@ LittleBitAudioProcessor::LittleBitAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-    treeState(*this, nullptr, "PARAMETER", { std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 2.0f, 32.0f, 32.0f) })
+    treeState(*this, nullptr, "PARAMETER", 
+        { 
+            std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 2.0f, 32.0f, 32.0f),
+            std::make_unique<AudioParameterFloat>(SAMPLERATE_ID, SAMPLERATE_NAME, 2.0f, 32.0f, 32.0f)
+        }
+    )
 
 #endif
 {
@@ -145,9 +150,9 @@ void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
             currentSampleValue = channelData[sample];
 
-            newSampleValue = round((currentSampleValue) * maxBitdepthValue);
+            newSampleValue = round((currentSampleValue) * maxBitdepthValue) / maxBitdepthValue;
 
-            channelData[sample] = newSampleValue / maxBitdepthValue;
+            channelData[sample] = newSampleValue;
         }
     }
 }

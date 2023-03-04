@@ -30,9 +30,11 @@ private:
     LittleBitAudioProcessor& audioProcessor;
 
     Slider bitdepthSlider;
+    Slider samplerateSlider;
 
 public:
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> bitdepthValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> samplerateValue;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessorEditor)
 };
