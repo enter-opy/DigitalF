@@ -41,10 +41,10 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "LittleBit"
+ #define JucePlugin_Name                   "DigitalF"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "LittleBit"
+ #define JucePlugin_Desc                   "DigitalF"
 #endif
 #ifndef  JucePlugin_Manufacturer
  #define JucePlugin_Manufacturer           "Samplerated"
@@ -101,19 +101,19 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         LittleBitAU
+ #define JucePlugin_AUExportPrefix         DigitalFAU
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "LittleBitAU"
+ #define JucePlugin_AUExportPrefixQuoted   "DigitalFAU"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.Samplerated.LittleBit
+ #define JucePlugin_CFBundleIdentifier     com.Samplerated.DigitalF
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.Samplerated.LittleBit
+ #define JucePlugin_AAXIdentifier          com.Samplerated.DigitalF
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "Samplerated: LittleBit"
+ #define JucePlugin_IAAName                "Samplerated: DigitalF"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.Samplerated.LittleBit.factory"
+ #define JucePlugin_ARAFactoryID           "com.Samplerated.DigitalF.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.Samplerated.LittleBit.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.Samplerated.DigitalF.aradocumentarchive.1.0.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

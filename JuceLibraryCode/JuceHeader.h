@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include "AppConfig.h"
 
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_audio_devices/juce_audio_devices.h>
@@ -45,7 +46,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "LittleBit";
+    const char* const  projectName    = "DigitalF";
     const char* const  companyName    = "Samplerated";
     const char* const  versionString  = "1.0.0";
     const int          versionNumber  = 0x10000;
