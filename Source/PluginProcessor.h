@@ -12,8 +12,15 @@
 
 #define BITDEPTH_ID "bitdepth"
 #define BITDEPTH_NAME "Bitdepth"
+
 #define SAMPLERATE_ID "samplerate"
 #define SAMPLERATE_NAME "Samplerate"
+
+#define CLIPCELING_ID "clipceiling"
+#define CLIPCELING_NAME "Clipceiling"
+
+#define GAIN_ID "gain"
+#define GAIN_NAME "Gain"
 
 //==============================================================================
 /**

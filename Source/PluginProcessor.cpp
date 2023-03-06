@@ -23,7 +23,9 @@ LittleBitAudioProcessor::LittleBitAudioProcessor()
     treeState(*this, nullptr, "PARAMETER", 
         { 
             std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 2.0f, 32.0f, 32.0f),
-            std::make_unique<AudioParameterFloat>(SAMPLERATE_ID, SAMPLERATE_NAME, 2.0f, 32.0f, 32.0f)
+            std::make_unique<AudioParameterFloat>(SAMPLERATE_ID, SAMPLERATE_NAME, 0.0f, 44100.0f, 44100.0f),
+            std::make_unique<AudioParameterFloat>(CLIPCELING_ID, CLIPCELING_NAME, -48.0f, 0.0f, 0.0f),
+            std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, -48.0f, 48.0f, 0.0f)
         }
     )
 
@@ -142,15 +144,27 @@ void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     const int totalNumOutputChannels = getTotalNumOutputChannels();
 
     int maxBitdepthValue = pow(2, *treeState.getRawParameterValue(BITDEPTH_ID)) / 2;
+    double clipCeiling = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(CLIPCELING_ID));
+    double gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
+    //gain = 1.5f;
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
 
         for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
-            currentSampleValue = channelData[sample];
+            currentSampleValue = buffer.getSample(channel, sample);
 
             newSampleValue = round((currentSampleValue) * maxBitdepthValue) / maxBitdepthValue;
+
+            if (newSampleValue >= clipCeiling) {
+                newSampleValue = clipCeiling;
+            }
+            else if (newSampleValue <= -clipCeiling) {
+                newSampleValue = -clipCeiling;
+            }
+
+            newSampleValue *= gain;
 
             channelData[sample] = newSampleValue;
         }
