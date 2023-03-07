@@ -10,16 +10,16 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProcessor& p)
+DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    setSize (600, 300);
+    setSize (700, 300);
 
     bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
     samplerateValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, SAMPLERATE_ID, samplerateSlider);
     clipCeilingValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CLIPCELING_ID, clipCeilingSlider);
     gainValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
-    
+
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     bitdepthSlider.setRange(2.0, 32.0, 1.0);
     bitdepthSlider.setSkewFactorFromMidPoint(8.0);
@@ -54,17 +54,18 @@ LittleBitAudioProcessorEditor::LittleBitAudioProcessorEditor (LittleBitAudioProc
     addAndMakeVisible(&gainSlider);
 }
 
-LittleBitAudioProcessorEditor::~LittleBitAudioProcessorEditor()
+DigitalFAudioProcessorEditor::~DigitalFAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void LittleBitAudioProcessorEditor::paint (juce::Graphics& g)
+void DigitalFAudioProcessorEditor::paint (juce::Graphics& g)
 {
+    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 }
 
-void LittleBitAudioProcessorEditor::resized()
+void DigitalFAudioProcessorEditor::resized()
 {
     bitdepthSlider.setBounds(40, 100, 100, 100);
     samplerateSlider.setBounds(200, 100, 100, 100);

@@ -14,20 +14,18 @@
 //==============================================================================
 /**
 */
-class LittleBitAudioProcessorEditor  : public juce::AudioProcessorEditor
+class DigitalFAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    LittleBitAudioProcessorEditor (LittleBitAudioProcessor&);
-    ~LittleBitAudioProcessorEditor() override;
+    DigitalFAudioProcessorEditor (DigitalFAudioProcessor&);
+    ~DigitalFAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
-    LittleBitAudioProcessor& audioProcessor;
+    DigitalFAudioProcessor& audioProcessor;
 
     Slider bitdepthSlider;
     Slider samplerateSlider;
@@ -40,5 +38,5 @@ public:
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> clipCeilingValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> gainValue;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DigitalFAudioProcessorEditor)
 };

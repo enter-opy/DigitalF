@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-LittleBitAudioProcessor::LittleBitAudioProcessor()
+DigitalFAudioProcessor::DigitalFAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -20,31 +20,30 @@ LittleBitAudioProcessor::LittleBitAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-    treeState(*this, nullptr, "PARAMETER", 
-        { 
+    treeState(*this, nullptr, "PARAMETER",
+        {
             std::make_unique<AudioParameterFloat>(BITDEPTH_ID, BITDEPTH_NAME, 2.0f, 32.0f, 32.0f),
             std::make_unique<AudioParameterFloat>(SAMPLERATE_ID, SAMPLERATE_NAME, 0.0f, 44100.0f, 44100.0f),
             std::make_unique<AudioParameterFloat>(CLIPCELING_ID, CLIPCELING_NAME, -48.0f, 0.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, -48.0f, 48.0f, 0.0f)
         }
     )
-
 #endif
 {
     treeState.state = ValueTree("savedParams");
 }
 
-LittleBitAudioProcessor::~LittleBitAudioProcessor()
+DigitalFAudioProcessor::~DigitalFAudioProcessor()
 {
 }
 
 //==============================================================================
-const juce::String LittleBitAudioProcessor::getName() const
+const juce::String DigitalFAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool LittleBitAudioProcessor::acceptsMidi() const
+bool DigitalFAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -53,7 +52,7 @@ bool LittleBitAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool LittleBitAudioProcessor::producesMidi() const
+bool DigitalFAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -62,7 +61,7 @@ bool LittleBitAudioProcessor::producesMidi() const
    #endif
 }
 
-bool LittleBitAudioProcessor::isMidiEffect() const
+bool DigitalFAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -71,49 +70,50 @@ bool LittleBitAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double LittleBitAudioProcessor::getTailLengthSeconds() const
+double DigitalFAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int LittleBitAudioProcessor::getNumPrograms()
+int DigitalFAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int LittleBitAudioProcessor::getCurrentProgram()
+int DigitalFAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void LittleBitAudioProcessor::setCurrentProgram (int index)
+void DigitalFAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String LittleBitAudioProcessor::getProgramName (int index)
+const juce::String DigitalFAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void LittleBitAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void DigitalFAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void LittleBitAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void DigitalFAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-
+    // Use this method as the place to do any pre-playback
+    // initialisation that you need..
 }
 
-void LittleBitAudioProcessor::releaseResources()
+void DigitalFAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool LittleBitAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool DigitalFAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
@@ -138,15 +138,17 @@ bool LittleBitAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts
 }
 #endif
 
-void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    const int totalNumInputChannels  = getTotalNumInputChannels();
+    const int totalNumInputChannels = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
 
+    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+        buffer.clear(i, 0, buffer.getNumSamples());
+
     int maxBitdepthValue = pow(2, *treeState.getRawParameterValue(BITDEPTH_ID)) / 2;
-    double clipCeiling = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(CLIPCELING_ID));
-    double gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
-    //gain = 1.5f;
+    float clipCeiling = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(CLIPCELING_ID));
+    float gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -155,7 +157,7 @@ void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
         for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
             currentSampleValue = buffer.getSample(channel, sample);
 
-            newSampleValue = round((currentSampleValue) * maxBitdepthValue) / maxBitdepthValue;
+            newSampleValue = round((currentSampleValue)*maxBitdepthValue) / maxBitdepthValue;
 
             if (newSampleValue >= clipCeiling) {
                 newSampleValue = clipCeiling;
@@ -172,24 +174,24 @@ void LittleBitAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
 }
 
 //==============================================================================
-bool LittleBitAudioProcessor::hasEditor() const
+bool DigitalFAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* LittleBitAudioProcessor::createEditor()
+juce::AudioProcessorEditor* DigitalFAudioProcessor::createEditor()
 {
-    return new LittleBitAudioProcessorEditor (*this);
+    return new DigitalFAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void LittleBitAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
+void DigitalFAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     std::unique_ptr <XmlElement> xml(treeState.state.createXml());
     copyXmlToBinary(*xml, destData);
 }
 
-void LittleBitAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void DigitalFAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     std::unique_ptr <XmlElement> params(getXmlFromBinary(data, sizeInBytes));
 
@@ -204,5 +206,5 @@ void LittleBitAudioProcessor::setStateInformation (const void* data, int sizeInB
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new LittleBitAudioProcessor();
+    return new DigitalFAudioProcessor();
 }

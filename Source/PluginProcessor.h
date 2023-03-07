@@ -25,15 +25,15 @@
 //==============================================================================
 /**
 */
-class LittleBitAudioProcessor  : public juce::AudioProcessor
+class DigitalFAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
 {
 public:
     //==============================================================================
-    LittleBitAudioProcessor();
-    ~LittleBitAudioProcessor() override;
+    DigitalFAudioProcessor();
+    ~DigitalFAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -74,5 +74,5 @@ private:
     float newSampleValue;
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleBitAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DigitalFAudioProcessor)
 };
