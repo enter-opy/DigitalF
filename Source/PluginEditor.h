@@ -30,12 +30,14 @@ private:
     Slider bitdepthSlider;
     Slider samplerateSlider;
     Slider clipCeilingSlider;
+    Slider crackleSlider;
     Slider gainSlider;
 
 public:
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> bitdepthValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> samplerateValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> clipCeilingValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> crackleValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> gainValue;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DigitalFAudioProcessorEditor)

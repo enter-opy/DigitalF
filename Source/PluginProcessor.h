@@ -19,6 +19,9 @@
 #define CLIPCELING_ID "clipceiling"
 #define CLIPCELING_NAME "Clipceiling"
 
+#define CRACKLE_ID "crackle"
+#define CRACKLE_NAME "Crackle"
+
 #define GAIN_ID "gain"
 #define GAIN_NAME "Gain"
 
@@ -72,6 +75,8 @@ public:
 private:
     float currentSampleValue;
     float newSampleValue;
+
+    Random random;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DigitalFAudioProcessor)

@@ -13,11 +13,12 @@
 DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    setSize (700, 300);
+    setSize (1000, 300);
 
     bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
     samplerateValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, SAMPLERATE_ID, samplerateSlider);
     clipCeilingValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CLIPCELING_ID, clipCeilingSlider);
+    crackleValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CRACKLE_ID, crackleSlider);
     gainValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
 
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
@@ -45,9 +46,18 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     clipCeilingSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&clipCeilingSlider);
 
+    crackleSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    crackleSlider.setRange(0.0, 100.0, 1.0);
+    crackleSlider.setValue(0.0);
+    crackleSlider.setTextValueSuffix(" %");
+    crackleSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    crackleSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&crackleSlider);
+
     gainSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     gainSlider.setRange(-48.0, 48.0, 0.1);
     gainSlider.setValue(0.0);
+    gainSlider.setSkewFactorFromMidPoint(0.0f);
     gainSlider.setTextValueSuffix(" dB");
     gainSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     gainSlider.setPopupDisplayEnabled(true, true, this);
@@ -70,5 +80,6 @@ void DigitalFAudioProcessorEditor::resized()
     bitdepthSlider.setBounds(40, 100, 100, 100);
     samplerateSlider.setBounds(200, 100, 100, 100);
     clipCeilingSlider.setBounds(360, 100, 100, 100);
-    gainSlider.setBounds(520, 100, 100, 100);
+    crackleSlider.setBounds(520, 100, 100, 100);
+    gainSlider.setBounds(780, 100, 100, 100);
 }
