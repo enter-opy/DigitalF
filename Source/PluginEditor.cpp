@@ -19,6 +19,7 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     samplerateValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, SAMPLERATE_ID, samplerateSlider);
     clipCeilingValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CLIPCELING_ID, clipCeilingSlider);
     crackleValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CRACKLE_ID, crackleSlider);
+    noiseLevelValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, NOISELEVEL_ID, noiseLevelSlider);
     gainValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
 
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
@@ -54,6 +55,14 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     crackleSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&crackleSlider);
 
+    noiseLevelSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    noiseLevelSlider.setRange(0.0, 100.0, 1.0);
+    noiseLevelSlider.setValue(0.0);
+    noiseLevelSlider.setTextValueSuffix(" %");
+    noiseLevelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    noiseLevelSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&noiseLevelSlider);
+
     gainSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     gainSlider.setRange(-48.0, 48.0, 0.1);
     gainSlider.setValue(0.0);
@@ -81,5 +90,6 @@ void DigitalFAudioProcessorEditor::resized()
     samplerateSlider.setBounds(200, 100, 100, 100);
     clipCeilingSlider.setBounds(360, 100, 100, 100);
     crackleSlider.setBounds(520, 100, 100, 100);
-    gainSlider.setBounds(780, 100, 100, 100);
+    noiseLevelSlider.setBounds(680, 100, 100, 100);
+    gainSlider.setBounds(820, 100, 100, 100);
 }

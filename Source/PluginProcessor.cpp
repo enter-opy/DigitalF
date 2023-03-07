@@ -26,6 +26,7 @@ DigitalFAudioProcessor::DigitalFAudioProcessor()
             std::make_unique<AudioParameterFloat>(SAMPLERATE_ID, SAMPLERATE_NAME, 0.0f, 44100.0f, 44100.0f),
             std::make_unique<AudioParameterFloat>(CLIPCELING_ID, CLIPCELING_NAME, -48.0f, 0.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(CRACKLE_ID, CRACKLE_NAME, 0.0f, 100.0f, 0.0f),
+            std::make_unique<AudioParameterFloat>(NOISELEVEL_ID, NOISELEVEL_NAME, 0.0f, 100.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, -48.0f, 48.0f, 0.0f)
         }
     )
@@ -150,6 +151,7 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     int maxBitdepthValue = pow(2, *treeState.getRawParameterValue(BITDEPTH_ID)) / 2;
     float clipCeiling = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(CLIPCELING_ID));
     int crackleValue = *treeState.getRawParameterValue(CRACKLE_ID);
+    float noiseLevel = *treeState.getRawParameterValue(NOISELEVEL_ID) / 100;
     float gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
@@ -168,8 +170,6 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                 newSampleValue = -clipCeiling;
             }
 
-            newSampleValue *= gain;
-
             if (crackleValue > 0) {
                 if (random.nextInt(100 - crackleValue + 2) == 0) {
                     if (random.nextInt(10) == 0) {
@@ -180,6 +180,10 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                     }
                 }
             }
+
+            newSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;\
+
+            newSampleValue *= gain;
 
             channelData[sample] = newSampleValue;
         }

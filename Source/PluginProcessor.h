@@ -22,6 +22,9 @@
 #define CRACKLE_ID "crackle"
 #define CRACKLE_NAME "Crackle"
 
+#define NOISELEVEL_ID "noiselevel"
+#define NOISELEVEL_NAME "Noiselevel"
+
 #define GAIN_ID "gain"
 #define GAIN_NAME "Gain"
 
