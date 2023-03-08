@@ -31,7 +31,7 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     addAndMakeVisible(&bitdepthSlider);
 
     samplerateSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    samplerateSlider.setRange(2.0, 44100.0, 1.0);
+    samplerateSlider.setRange(44.0, 44100.0, 1.0);
     samplerateSlider.setValue(44100.0);
     samplerateSlider.setTextValueSuffix(" Hz");
     samplerateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);

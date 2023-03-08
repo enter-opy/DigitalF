@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="Q6qM6a" name="DigitalF" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1"
-              companyName="monophonia">
+              companyName="vivek vijayan">
   <MAINGROUP id="uFe8Zs" name="DigitalF">
     <GROUP id="{C52E1BE1-E109-7180-242C-FBDBCE5DC618}" name="Source">
       <FILE id="vo0Pam" name="PluginProcessor.cpp" compile="1" resource="0"

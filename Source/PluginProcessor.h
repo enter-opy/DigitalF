@@ -78,6 +78,7 @@ public:
 private:
     float currentSampleValue;
     float newSampleValue;
+    float realSampleRate;
 
     Random random;
 

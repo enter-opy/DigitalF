@@ -47,10 +47,10 @@
  #define JucePlugin_Desc                   "DigitalF"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "monophonia"
+ #define JucePlugin_Manufacturer           "vivek vijayan"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "www.monophonia.com"
+ #define JucePlugin_ManufacturerWebsite    "www.vivekvijayan.com"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
  #define JucePlugin_ManufacturerEmail      ""
@@ -110,10 +110,10 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.monophonia.DigitalF
+ #define JucePlugin_CFBundleIdentifier     com.vivekvijayan.DigitalF
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.monophonia.DigitalF
+ #define JucePlugin_AAXIdentifier          com.vivekvijayan.DigitalF
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "monophonia: DigitalF"
+ #define JucePlugin_IAAName                "vivek vijayan: DigitalF"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.monophonia.DigitalF.factory"
+ #define JucePlugin_ARAFactoryID           "com.vivekvijayan.DigitalF.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.monophonia.DigitalF.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.vivekvijayan.DigitalF.aradocumentarchive.1.0.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""
