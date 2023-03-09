@@ -76,8 +76,8 @@ public:
 
     AudioProcessorValueTreeState treeState;
 private:
-    float currentSampleValue;
-    float newSampleValue;
+    float drySampleValue;
+    float wetSampleValue;
     float realSampleRate;
 
     Random random;

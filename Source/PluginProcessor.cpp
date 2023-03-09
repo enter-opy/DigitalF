@@ -161,34 +161,34 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         float* channelData = buffer.getWritePointer(channel);
 
         for (int sample = 0; sample < buffer.getNumSamples(); ) {
-            currentSampleValue = buffer.getSample(channel, sample);
+            drySampleValue = buffer.getSample(channel, sample);
 
-            newSampleValue = round((currentSampleValue)*maxBitdepthValue) / maxBitdepthValue;
+            wetSampleValue = round((drySampleValue)*maxBitdepthValue) / maxBitdepthValue;
 
-            if (newSampleValue >= clipCeiling) {
-                newSampleValue = clipCeiling;
+            if (wetSampleValue >= clipCeiling) {
+                wetSampleValue = clipCeiling;
             }
-            else if (newSampleValue <= -clipCeiling) {
-                newSampleValue = -clipCeiling;
+            else if (wetSampleValue <= -clipCeiling) {
+                wetSampleValue = -clipCeiling;
             }
 
             if (crackleValue > 0) {
                 if (random.nextInt(100 - crackleValue + 2) == 0) {
                     if (random.nextInt(10) == 0) {
-                        newSampleValue = -newSampleValue;
+                        wetSampleValue = -wetSampleValue;
                     }
                     else {
-                        newSampleValue = 0.0;
+                        wetSampleValue = 0.0;
                     }
                 }
             }
 
-            newSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;\
+            wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;\
 
-            newSampleValue *= gain;
+            wetSampleValue *= gain;
 
             for (int i = 0; i < step && sample < buffer.getNumSamples(); i++, sample++) {
-                channelData[sample] = newSampleValue;
+                channelData[sample] = wetSampleValue;
             }
         }
     }
