@@ -183,7 +183,7 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                 }
             }
 
-            wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;\
+            wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;
 
             wetSampleValue *= gain;
 
