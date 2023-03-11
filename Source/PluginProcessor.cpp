@@ -104,7 +104,7 @@ void DigitalFAudioProcessor::changeProgramName (int index, const juce::String& n
 //==============================================================================
 void DigitalFAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    realSampleRate = sampleRate;
+    sr = sampleRate;
 }
 
 void DigitalFAudioProcessor::releaseResources()
@@ -154,17 +154,19 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     float noiseLevel = *treeState.getRawParameterValue(NOISELEVEL_ID) / 100;
     float gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
 
-    int step = realSampleRate / newSamplerate;
+    int step = sr / newSamplerate;
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer(channel);
 
         for (int sample = 0; sample < buffer.getNumSamples(); ) {
-            drySampleValue = buffer.getSample(channel, sample);
+            drySampleValue = channelData[sample];
 
-            wetSampleValue = round((drySampleValue)*maxBitdepthValue) / maxBitdepthValue;
+            // bitdepth reduction happens here
+            wetSampleValue = round((drySampleValue) * maxBitdepthValue) / maxBitdepthValue;
 
+            // hard clipping happens here
             if (wetSampleValue >= clipCeiling) {
                 wetSampleValue = clipCeiling;
             }
@@ -172,6 +174,7 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                 wetSampleValue = -clipCeiling;
             }
 
+            // crackles are added here
             if (crackleValue > 0) {
                 if (random.nextInt(100 - crackleValue + 2) == 0) {
                     if (random.nextInt(10) == 0) {
@@ -183,10 +186,13 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                 }
             }
 
+            // noise is added here
             wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;
 
+            // wet signal gain is applied here
             wetSampleValue *= gain;
 
+            // sample rate reduction happens here
             for (int i = 0; i < step && sample < buffer.getNumSamples(); i++, sample++) {
                 channelData[sample] = wetSampleValue;
             }

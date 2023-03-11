@@ -78,7 +78,7 @@ public:
 private:
     float drySampleValue;
     float wetSampleValue;
-    float realSampleRate;
+    float sr;
 
     Random random;
 

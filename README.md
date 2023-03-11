@@ -38,7 +38,7 @@ float wetSampleValue = round((drySampleValue)*maxBitdepthValue) / maxBitdepthVal
 <br>
 
 ```cpp
-int step = realSampleRate / newSamplerate;
+int step = sampleRate / newSamplerate;
 
 for (int i = 0; i < step && sample < buffer.getNumSamples(); i++, sample++) {
     channelData[sample] = wetSampleValue;
