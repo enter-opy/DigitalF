@@ -56,10 +56,25 @@ Reference: <a href="https://headfonics.com/what-is-jitter-in-audio/">📖</a>
 <br>
 
 ```cpp
-//to be done
+wetSampleValue += (random.nextInt(3) - 1) * jitterValue;
 ```
 
 <hr>
+
+<h2>Clip</h2>
+
+<h3><i>Limits the peak value of the signal</i><h3>
+
+<br>
+
+```cpp
+if (wetSampleValue >= clipCeiling) {
+    wetSampleValue = clipCeiling;
+}
+else if (wetSampleValue <= -clipCeiling) {
+    wetSampleValue = -clipCeiling;
+}
+```
 
 <h2>Crackle</h2>
 
@@ -81,21 +96,6 @@ if (crackleValue > 0) {
 ```
 
 <hr>
-
-<h2>Clip</h2>
-
-<h3><i>Limits the peak value of the signal</i><h3>
-
-<br>
-
-```cpp
-if (wetSampleValue >= clipCeiling) {
-    wetSampleValue = clipCeiling;
-}
-else if (wetSampleValue <= -clipCeiling) {
-    wetSampleValue = -clipCeiling;
-}
-```
 
 <br>
 
@@ -169,26 +169,26 @@ float wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;
 
 <br>
 
-<h2>Dry</h2>
+<h2>Mix</h2>
 
-<h3><i>Increases the gain of dry signal</i><h3>
+<h3><i>Blends the dry signal with the wet signal</i><h3>
 
 <br>
 
 ```cpp
-//to be done
+channelData[sample] = (1 - mixValue) * drySampleValue + mixValue * wetSampleValue;
 ```
 
 <hr>
 
-<h2>Wet</h2>
+<h2>Gain</h2>
 
-<h3><i>Increases the gain of wet signal</i><h3>
+<h3><i>Increases the gain of the output signal</i><h3>
 
 <br>
 
 ```cpp
-//to be done
+wetSampleValue *= gain;
 ```
 
 <hr>
