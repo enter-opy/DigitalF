@@ -13,13 +13,15 @@
 DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    setSize (1000, 300);
+    setSize (1000, 600);
 
     bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
     samplerateValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, SAMPLERATE_ID, samplerateSlider);
+    jitterValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, JITTER_ID, jitterSlider);
     clipCeilingValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CLIPCELING_ID, clipCeilingSlider);
     crackleValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CRACKLE_ID, crackleSlider);
     noiseLevelValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, NOISELEVEL_ID, noiseLevelSlider);
+    mixValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, MIX_ID, mixSlider);
     gainValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
 
     bitdepthSlider.setSliderStyle(Slider::RotaryVerticalDrag);
@@ -38,10 +40,17 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     samplerateSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&samplerateSlider);
 
+    jitterSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    jitterSlider.setRange(0.0, 100.0, 1.0);
+    jitterSlider.setValue(0.0);
+    jitterSlider.setTextValueSuffix(" %");
+    jitterSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    jitterSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&jitterSlider);
+
     clipCeilingSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    clipCeilingSlider.setRange(-48.0, 0.0, 0.1);
+    clipCeilingSlider.setRange(-24.0, 0.0, 0.1);
     clipCeilingSlider.setValue(0.0);
-    gainSlider.setSkewFactorFromMidPoint(-12.0f);
     clipCeilingSlider.setTextValueSuffix(" dB");
     clipCeilingSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     clipCeilingSlider.setPopupDisplayEnabled(true, true, this);
@@ -63,8 +72,16 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     noiseLevelSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&noiseLevelSlider);
 
+    mixSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    mixSlider.setRange(0.0, 100.0, 1.0);
+    mixSlider.setValue(100.0);
+    mixSlider.setTextValueSuffix(" %");
+    mixSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    mixSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&mixSlider);
+
     gainSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    gainSlider.setRange(-48.0, 48.0, 0.1);
+    gainSlider.setRange(-24.0, 24.0, 0.1);
     gainSlider.setValue(0.0);
     gainSlider.setSkewFactorFromMidPoint(0.0f);
     gainSlider.setTextValueSuffix(" dB");
@@ -86,10 +103,17 @@ void DigitalFAudioProcessorEditor::paint (juce::Graphics& g)
 
 void DigitalFAudioProcessorEditor::resized()
 {
-    bitdepthSlider.setBounds(40, 100, 100, 100);
-    samplerateSlider.setBounds(200, 100, 100, 100);
-    clipCeilingSlider.setBounds(360, 100, 100, 100);
-    crackleSlider.setBounds(520, 100, 100, 100);
-    noiseLevelSlider.setBounds(680, 100, 100, 100);
-    gainSlider.setBounds(820, 100, 100, 100);
+    // Artifacts
+    bitdepthSlider.setBounds(100, 100, 100, 100);
+    samplerateSlider.setBounds(220, 100, 100, 100);
+    jitterSlider.setBounds(340, 100, 100, 100);
+    clipCeilingSlider.setBounds(460, 100, 100, 100);
+    crackleSlider.setBounds(580, 100, 100, 100);
+    
+    // Noise
+    noiseLevelSlider.setBounds(290, 310, 200, 200);
+
+    // Output
+    mixSlider.setBounds(830, 300, 100, 100);
+    gainSlider.setBounds(830, 420, 100, 100);
 }

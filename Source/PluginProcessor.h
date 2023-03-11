@@ -16,6 +16,9 @@
 #define SAMPLERATE_ID "samplerate"
 #define SAMPLERATE_NAME "Samplerate"
 
+#define JITTER_ID "jitter"
+#define JITTER_NAME "Jitter"
+
 #define CLIPCELING_ID "clipceiling"
 #define CLIPCELING_NAME "Clipceiling"
 
@@ -24,6 +27,9 @@
 
 #define NOISELEVEL_ID "noiselevel"
 #define NOISELEVEL_NAME "Noiselevel"
+
+#define MIX_ID "mix"
+#define MIX_NAME "Mix"
 
 #define GAIN_ID "gain"
 #define GAIN_NAME "Gain"
