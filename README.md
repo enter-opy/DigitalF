@@ -49,7 +49,7 @@ for (int i = 0; i < step && sample < buffer.getNumSamples(); i++, sample++) {
 
 <h2>Jitter</h2>
 
-<h3><i>Modulates the pitch of signal</i><h3>
+<h3><i>Adds random variation in the waveform</i><h3>
 
 Reference: <a href="https://headfonics.com/what-is-jitter-in-audio/">📖</a>
 
