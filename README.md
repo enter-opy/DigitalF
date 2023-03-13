@@ -56,7 +56,9 @@ Reference: <a href="https://headfonics.com/what-is-jitter-in-audio/">📖</a>
 <br>
 
 ```cpp
-wetSampleValue += (random.nextInt(3) - 1) * jitterValue;
+if (!(wetSampleValue + (random.nextInt(3) - 1) * jitterValue > 1.0 || wetSampleValue + (random.nextInt(3) - 1) * jitterValue < -1.0)) {
+    wetSampleValue += (random.nextInt(3) - 1) * jitterValue;
+}
 ```
 
 <hr>
@@ -99,75 +101,27 @@ if (crackleValue > 0) {
 
 <br>
 
-<h1>Noise</h1>
+<h1>Output</h1>
 
-<h2>Amount</h2>
+<br>
 
-<h3><i>increases the amount of noise added</i><h3>
+<h2>Mono</h2>
+
+<h3><i>Decreases the stereo width of the signal</i><h3>
 
 <br>
 
 ```cpp
-float wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel;
+for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+    leftSampleValue = (1 - monoValue) * leftchannelData[sample] + monoValue * rightchannelData[sample];
+    rightSampleValue = monoValue * leftchannelData[sample] + (1 - monoValue) * rightchannelData[sample];
+
+    leftchannelData[sample] = (1 - mixValue) * leftchannelData[sample] + mixValue * leftSampleValue;
+    rightchannelData[sample] = (1 - mixValue) * rightchannelData[sample] + mixValue * rightSampleValue;
+}
 ```
 
 <hr>
-
-<h2>Compressor</h2>
-
-<h3><i>sidechain compression for noise triggered by input signal</i><h3>
-
-<br>
-
-```cpp
-//to be done
-```
-
-<hr>
-
-<h2>Gate</h2>
-
-<h3><i>sidechain gate for noise triggered by input signal</i><h3>
-
-<br>
-
-```cpp
-//to be done
-```
-
-<hr>
-
-<h1>Noise</h1>
-
-<br>
-
-<h2>LPF</h2>
-
-<h3><i>Low pass filter cutoff</i><h3>
-
-<br>
-
-```cpp
-//to be done
-```
-
-<hr>
-
-<h2>HPF</h2>
-
-<h3><i>high pass filter cutoff</i><h3>
-
-<br>
-
-```cpp
-//to be done
-```
-
-<hr>
-
-<h1>Mix</h1>
-
-<br>
 
 <h2>Mix</h2>
 
