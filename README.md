@@ -2,7 +2,16 @@
 
 <h3>An audio plugin that adds digital artifacts to an audio signal</h3>
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FJB5JLmTLSrF21Uth7MW0lr%2FDigital-F%3Fnode-id%3D0%253A1%26t%3Drnk9NgJWplx08k6x-1" allowfullscreen></iframe>
+
+<br>
+
+[![Typing SVG](https://readme-typing-svg.demolab.com/?lines=This+is+just+a+rough+sketch!!!)](https://github.com/enter-opy/DigitalF)
+
+<img src="res/ui-rough.png">
+
+<a href="https://www.figma.com/file/JB5JLmTLSrF21Uth7MW0lr/Digital-F?node-id=0%3A1&t=rnk9NgJWplx08k6x-1" target="_blank">
+        <img src="https://img.shields.io/badge/Figma-B22E6E?style=for-the-badge&logo=figma&logoColor=white" alt="figma" style="vertical-align:top; margin:4px">
+</a>
 
 <hr>
 

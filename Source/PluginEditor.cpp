@@ -97,8 +97,8 @@ DigitalFAudioProcessorEditor::~DigitalFAudioProcessorEditor()
 //==============================================================================
 void DigitalFAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    background = ImageCache::getFromMemory(BinaryData::pluginbackground_png, BinaryData::pluginbackground_pngSize);
+    g.drawImageWithin(background, 0, 0, getWidth(), getHeight(), RectanglePlacement::stretchToFit);
 }
 
 void DigitalFAudioProcessorEditor::resized()

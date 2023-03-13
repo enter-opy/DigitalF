@@ -36,6 +36,8 @@ private:
     Slider mixSlider;
     Slider gainSlider;
 
+    Image background;
+
 public:
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> bitdepthValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> samplerateValue;

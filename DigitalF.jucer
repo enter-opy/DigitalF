@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1"
               companyName="vivek vijayan">
   <MAINGROUP id="uFe8Zs" name="DigitalF">
+    <GROUP id="{0531A61D-AFD5-A0CA-B02D-9B16A7490FA2}" name="Assets">
+      <FILE id="cXbpyk" name="plugin-background.png" compile="0" resource="1"
+            file="Source/Assets/plugin-background.png"/>
+    </GROUP>
     <GROUP id="{C52E1BE1-E109-7180-242C-FBDBCE5DC618}" name="Source">
       <FILE id="vo0Pam" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
