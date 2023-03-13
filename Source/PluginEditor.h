@@ -32,7 +32,7 @@ private:
     Slider jitterSlider;
     Slider clipCeilingSlider;
     Slider crackleSlider;
-    Slider noiseLevelSlider;
+    Slider monoSlider;
     Slider mixSlider;
     Slider gainSlider;
 
@@ -42,7 +42,7 @@ public:
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> jitterValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> clipCeilingValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> crackleValue;
-    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> noiseLevelValue;
+    std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> monoValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> mixValue;
     std::unique_ptr <AudioProcessorValueTreeState::SliderAttachment> gainValue;
 

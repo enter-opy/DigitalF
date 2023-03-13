@@ -27,9 +27,9 @@ DigitalFAudioProcessor::DigitalFAudioProcessor()
             std::make_unique<AudioParameterFloat>(JITTER_ID, JITTER_NAME, 0.0f, 100.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(CLIPCELING_ID, CLIPCELING_NAME, -24.0f, 0.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(CRACKLE_ID, CRACKLE_NAME, 0.0f, 100.0f, 0.0f),
-            std::make_unique<AudioParameterFloat>(NOISELEVEL_ID, NOISELEVEL_NAME, 0.0f, 100.0f, 0.0f),
+            std::make_unique<AudioParameterFloat>(MONO_ID, MONO_NAME, 0.0f, 100.0f, 0.0f),
             std::make_unique<AudioParameterFloat>(MIX_ID, MIX_NAME, 0.0f, 100.0f, 100.0f),
-            std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, -24.0f, 24.0f, 0.0f)
+            std::make_unique<AudioParameterFloat>(GAIN_ID, GAIN_NAME, -24.0f, 24.0f, 0.0f),
         }
     )
 #endif
@@ -155,11 +155,22 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     float jitterValue = *treeState.getRawParameterValue(JITTER_ID) / 10000.0;
     float clipCeiling = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(CLIPCELING_ID));
     int crackleValue = *treeState.getRawParameterValue(CRACKLE_ID);
-    float noiseLevel = *treeState.getRawParameterValue(NOISELEVEL_ID) / 100.0;
+    float monoValue = *treeState.getRawParameterValue(MONO_ID) / 200.0;
     float mixValue = *treeState.getRawParameterValue(MIX_ID) / 100.0;
     float gain = Decibels::decibelsToGain((float)*treeState.getRawParameterValue(GAIN_ID));
 
     int step = sr / newSamplerate;
+
+    float* leftchannelData = buffer.getWritePointer(0);
+    float* rightchannelData = buffer.getWritePointer(1);
+
+    for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
+        leftSampleValue = (1 - monoValue) * leftchannelData[sample] + monoValue * rightchannelData[sample];
+        rightSampleValue = monoValue * leftchannelData[sample] + (1 - monoValue) * rightchannelData[sample];
+
+        leftchannelData[sample] = (1 - mixValue) * leftchannelData[sample] + mixValue * leftSampleValue;
+        rightchannelData[sample] = (1 - mixValue) * rightchannelData[sample] + mixValue * rightSampleValue;
+    }
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -168,10 +179,20 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         for (int sample = 0; sample < buffer.getNumSamples(); ) {
             drySampleValue = channelData[sample];
 
+            // rms value of dry signal is calculated here
+            float sum = 0.0;
+            for (int i = 0; i < 441; i++) {
+                sum += channelData[sample + i] * channelData[sample + i];
+            }
+            float rms = std::sqrt(sum / 4410.0);
+
             // bitdepth reduction happens here
             wetSampleValue = round((drySampleValue) * maxBitdepthValue) / maxBitdepthValue;
 
-            wetSampleValue += (random.nextInt(3) - 1) * jitterValue;
+            // jitter is added here
+            if (!(wetSampleValue + (random.nextInt(3) - 1) * jitterValue > 1.0 || wetSampleValue + (random.nextInt(3) - 1) * jitterValue < -1.0)) {
+                wetSampleValue += (random.nextInt(3) - 1) * jitterValue;
+            }
 
             // hard clipping happens here
             if (wetSampleValue >= clipCeiling) {
@@ -180,6 +201,7 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
             else if (wetSampleValue <= -clipCeiling) {
                 wetSampleValue = -clipCeiling;
             }
+            wetSampleValue *= 1 / clipCeiling;
 
             // crackles are added here
             if (crackleValue > 0) {
@@ -192,9 +214,6 @@ void DigitalFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
                     }
                 }
             }
-
-            // noise is added here
-            wetSampleValue += (random.nextFloat() * 2.0f - 1.0f) * noiseLevel * 0.25;
 
             // wet signal gain is applied here
             wetSampleValue *= gain;

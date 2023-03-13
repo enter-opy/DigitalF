@@ -13,14 +13,14 @@
 DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    setSize (1000, 600);
+    setSize (680, 390);
 
     bitdepthValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, BITDEPTH_ID, bitdepthSlider);
     samplerateValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, SAMPLERATE_ID, samplerateSlider);
     jitterValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, JITTER_ID, jitterSlider);
     clipCeilingValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CLIPCELING_ID, clipCeilingSlider);
     crackleValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CRACKLE_ID, crackleSlider);
-    noiseLevelValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, NOISELEVEL_ID, noiseLevelSlider);
+    monoValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, MONO_ID, monoSlider);
     mixValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, MIX_ID, mixSlider);
     gainValue = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, gainSlider);
 
@@ -64,13 +64,13 @@ DigitalFAudioProcessorEditor::DigitalFAudioProcessorEditor (DigitalFAudioProcess
     crackleSlider.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&crackleSlider);
 
-    noiseLevelSlider.setSliderStyle(Slider::RotaryVerticalDrag);
-    noiseLevelSlider.setRange(0.0, 100.0, 1.0);
-    noiseLevelSlider.setValue(0.0);
-    noiseLevelSlider.setTextValueSuffix(" %");
-    noiseLevelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    noiseLevelSlider.setPopupDisplayEnabled(true, true, this);
-    addAndMakeVisible(&noiseLevelSlider);
+    monoSlider.setSliderStyle(Slider::RotaryVerticalDrag);
+    monoSlider.setRange(0.0, 100.0, 1.0);
+    monoSlider.setValue(0.0);
+    monoSlider.setTextValueSuffix(" %");
+    monoSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    monoSlider.setPopupDisplayEnabled(true, true, this);
+    addAndMakeVisible(&monoSlider);
 
     mixSlider.setSliderStyle(Slider::RotaryVerticalDrag);
     mixSlider.setRange(0.0, 100.0, 1.0);
@@ -104,16 +104,14 @@ void DigitalFAudioProcessorEditor::paint (juce::Graphics& g)
 void DigitalFAudioProcessorEditor::resized()
 {
     // Artifacts
-    bitdepthSlider.setBounds(100, 100, 100, 100);
-    samplerateSlider.setBounds(220, 100, 100, 100);
-    jitterSlider.setBounds(340, 100, 100, 100);
-    clipCeilingSlider.setBounds(460, 100, 100, 100);
-    crackleSlider.setBounds(580, 100, 100, 100);
-    
-    // Noise
-    noiseLevelSlider.setBounds(290, 310, 200, 200);
+    bitdepthSlider.setBounds(50, 50, 100, 100);
+    samplerateSlider.setBounds(170, 50, 100, 100);
+    jitterSlider.setBounds(290, 50, 100, 100);
+    clipCeilingSlider.setBounds(410, 50, 100, 100);
+    crackleSlider.setBounds(530, 50, 100, 100);
 
     // Output
-    mixSlider.setBounds(830, 300, 100, 100);
-    gainSlider.setBounds(830, 420, 100, 100);
+    monoSlider.setBounds(85, 190, 150, 150);
+    mixSlider.setBounds(265, 190, 150, 150);
+    gainSlider.setBounds(445, 190, 150, 150);
 }

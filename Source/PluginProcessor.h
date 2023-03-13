@@ -25,14 +25,14 @@
 #define CRACKLE_ID "crackle"
 #define CRACKLE_NAME "Crackle"
 
-#define NOISELEVEL_ID "noiselevel"
-#define NOISELEVEL_NAME "Noiselevel"
-
 #define MIX_ID "mix"
 #define MIX_NAME "Mix"
 
 #define GAIN_ID "gain"
 #define GAIN_NAME "Gain"
+
+#define MONO_ID "mono"
+#define MONO_NAME "Mono"
 
 //==============================================================================
 /**
@@ -84,6 +84,9 @@ public:
 private:
     float drySampleValue;
     float wetSampleValue;
+    float leftSampleValue;
+    float rightSampleValue;
+
     float sr;
 
     Random random;
