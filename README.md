@@ -112,6 +112,7 @@ if (crackleValue > 0) {
 <br>
 
 ```cpp
+// monoValue ranges from 0 to 0.5
 for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
     leftSampleValue = (1 - monoValue) * leftchannelData[sample] + monoValue * rightchannelData[sample];
     rightSampleValue = monoValue * leftchannelData[sample] + (1 - monoValue) * rightchannelData[sample];
